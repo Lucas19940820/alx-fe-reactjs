@@ -1,9 +1,12 @@
 import useRecipeStore from '../stores/recipeStore.js';
+import { useNavigate } from 'react-router-dom';
 
 const RecipeDetails = ({ recipeId }) => {
+    const navigate = useNavigate();
   const recipe = useRecipeStore((state) =>
     state.recipes.find((recipe) => recipe.id === recipeId)
   );
+  navigate('/');  // Navigate back to the homepage or RecipeList
 
   if (!recipe) return <p>Recipe not found</p>;
 

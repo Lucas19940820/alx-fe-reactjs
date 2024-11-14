@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import useRecipeStore from '../stores/recipeStore';
+import { useNavigate } from 'react-router-dom';
+
 
 const EditRecipeForm = ({ recipeId }) => {
+    const navigate = useNavigate(); // Initialize the navigate hook
   const { recipes, updateRecipe } = useRecipeStore((state) => ({
     recipes: state.recipes,
     updateRecipe: state.updateRecipe,
@@ -13,6 +16,7 @@ const EditRecipeForm = ({ recipeId }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateRecipe({ id: recipeId, title, description });
+    navigate(`/recipe/${recipeId}`);  // Navigate to the recipe details after editing
   };
 
   return (
