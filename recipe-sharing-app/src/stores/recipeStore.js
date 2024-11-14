@@ -4,6 +4,8 @@ const useRecipeStore = create((set) => ({
     recipes: [],
     searchTerm: '',
     filteredRecipes: [],  // This will store the filtered recipes
+    favorites: [],
+    recommendations: [],
 
     setSearchTerm: (term) => set({ searchTerm: term }),
 
