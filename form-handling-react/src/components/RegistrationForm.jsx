@@ -20,13 +20,13 @@ const RegistrationForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!username.trim()) newErrors.username = "Username is required.";
-    if (!email.trim()) {
+    if (!username) newErrors.username = "Username is required.";
+    if (!email) {
       newErrors.email = "Email is required.";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Invalid email format.";
     }
-    if (!password.trim()) newErrors.password = "Password is required.";
+    if (!password) newErrors.password = "Password is required.";
 
     return newErrors;
   };
