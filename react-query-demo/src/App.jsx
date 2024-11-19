@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client = {queryClient}>
+    <QueryClientProvider client={queryClient}>
       <h1>React Query Demo</h1>
       <PostComponent />
     </QueryClientProvider>
