@@ -9,6 +9,9 @@ const RegistrationForm = () => {
 
   const [errors, setErrors] = useState({});
 
+  // Destructure formData to directly use username, email, and password
+  const { username, email, password } = formData;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -17,13 +20,13 @@ const RegistrationForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.username.trim()) newErrors.username = "Username is required.";
-    if (!formData.email.trim()) {
+    if (!username.trim()) newErrors.username = "Username is required.";
+    if (!email.trim()) {
       newErrors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Invalid email format.";
     }
-    if (!formData.password.trim()) newErrors.password = "Password is required.";
+    if (!password.trim()) newErrors.password = "Password is required.";
 
     return newErrors;
   };
@@ -47,7 +50,7 @@ const RegistrationForm = () => {
         <input
           type="text"
           name="username"
-          value={formData.username}
+          value={username} // Explicitly bind username
           onChange={handleChange}
         />
         {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
@@ -58,7 +61,7 @@ const RegistrationForm = () => {
         <input
           type="email"
           name="email"
-          value={formData.email}
+          value={email} // Explicitly bind email
           onChange={handleChange}
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
@@ -69,7 +72,7 @@ const RegistrationForm = () => {
         <input
           type="password"
           name="password"
-          value={formData.password}
+          value={password} // Explicitly bind password
           onChange={handleChange}
         />
         {errors.password && (
