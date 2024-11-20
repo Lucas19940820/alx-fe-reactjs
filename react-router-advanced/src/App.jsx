@@ -8,19 +8,21 @@ const Home = () => <h1>Home Page</h1>;
 const About = () => <h1>About Page</h1>;
 
 const App = () => {
-  const isAuthenticated = false;
+  const isAuthenticated = false; // Simulating authentication state
 
   return (
     <Router>
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/About">About</Link>
-        <Link to="/profile">Profile</Link>
-        <Link to="/blog/1">Blog Post</Link>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
+        <Link to="/profile">Profile</Link> |{" "}
+        <Link to="/blog/1">Sample Blog Post</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/About" element={<About />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog/:id" element={<BlogPost />} />
+
+        {/* Protected Route */}
         <Route
           path="/profile/*"
           element={
@@ -29,7 +31,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/blog/:postId" element={<BlogPost />} />
       </Routes>
     </Router>
   );
