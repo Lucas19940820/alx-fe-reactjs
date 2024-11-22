@@ -15,6 +15,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@eslint/js": "^9.13.0",
@@ -34,8 +35,11 @@
     "vite": "^5.4.10"
   },
   "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
+  "testEnvironment": "jsdom",
+  "transform": {
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
   }
 }
+
+  }
+
