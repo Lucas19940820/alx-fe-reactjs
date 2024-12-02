@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useMemo } from "react";
 import useRecipeStore from "../stores/recipeStore";
 import EditRecipeForm from "./EditRecipeForm";
-import recipeData from "../data";
+import recipeData from "../data.json";
 
 const HomePage = () => {
     const recipes = useRecipeStore((state) => state.recipes);
