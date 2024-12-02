@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom"; // Added Link from react-router-dom
 import useRecipeStore from "../stores/recipeStore";
 import EditRecipeForm from "./EditRecipeForm";
 import recipeData from "../data.json";
@@ -70,7 +71,14 @@ const HomePage = () => {
               className="w-full h-40 object-cover"
             />
             <div className="p-4">
-              <h2 className="text-xl font-semibold">{recipe.title}</h2>
+              <h2 className="text-xl font-semibold">
+                <Link
+                  to={`/recipe/${recipe.id}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  {recipe.title}
+                </Link>
+              </h2>
               <p className="text-gray-600">{recipe.summary}</p>
               <div className="mt-4 flex gap-2">
                 <button
