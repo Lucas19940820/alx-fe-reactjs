@@ -10,32 +10,47 @@ const AddRecipeForm = ({ onAddRecipe }) => {
     preparationSteps: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Validate the form
+  // Validation function
+  const validate = () => {
     const newErrors = {};
+
+    // Title validation (ensure it's not empty)
     if (!title) {
       newErrors.title = "Title is required.";
     }
-    if (!ingredients || ingredients.split(",").length < 2) {
+
+    // Ingredients validation (ensure it's not empty and contains at least 2 items)
+    if (!ingredients) {
+      newErrors.ingredients = "Ingredients are required.";
+    } else if (ingredients.split(",").length < 2) {
       newErrors.ingredients = "Please provide at least two ingredients.";
     }
+
+    // Preparation steps validation (ensure it's not empty)
     if (!preparationSteps) {
       newErrors.preparationSteps = "Preparation steps are required.";
     }
 
-    // Set the error state if there are any errors
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Perform validation
+    const newErrors = validate();
     setErrors(newErrors);
 
-    // If no errors, submit the form
+    // If there are no errors, call the onAddRecipe function and reset the form
     if (Object.keys(newErrors).length === 0) {
       const newRecipe = {
         title,
-        ingredients: ingredients.split(",").map((item) => item.trim()),
+        ingredients: ingredients.split(",").map((item) => item.trim()), // Split ingredients by commas and trim spaces
         preparationSteps,
       };
+
       onAddRecipe(newRecipe);
+
       // Clear the form after submission
       setTitle("");
       setIngredients("");
@@ -47,6 +62,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
     <div className="max-w-2xl mx-auto bg-white p-6 shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Add a New Recipe</h2>
       <form onSubmit={handleSubmit}>
+        {/* Title Field */}
         <div className="mb-4">
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Recipe Title
@@ -61,6 +77,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
           {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
         </div>
 
+        {/* Ingredients Field */}
         <div className="mb-4">
           <label htmlFor="ingredients" className="block text-sm font-medium text-gray-700">
             Ingredients (Separate with commas)
@@ -75,6 +92,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
           {errors.ingredients && <p className="text-red-500 text-sm">{errors.ingredients}</p>}
         </div>
 
+        {/* Preparation Steps Field */}
         <div className="mb-4">
           <label htmlFor="preparationSteps" className="block text-sm font-medium text-gray-700">
             Preparation Steps
@@ -89,6 +107,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
           {errors.preparationSteps && <p className="text-red-500 text-sm">{errors.preparationSteps}</p>}
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
