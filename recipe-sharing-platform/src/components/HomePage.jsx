@@ -30,7 +30,7 @@ const HomePage = () => {
   }, [recipes, filterCriteria, searchQuery]);
 
   return (
-    <div>
+    <div className="p-4 md:p-8">
       {editingRecipe && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
           <EditRecipeForm
@@ -40,16 +40,16 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className="mb-6 flex gap-4">
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center">
         <input
           type="text"
           placeholder="Search by title..."
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg"
+          className="p-2 border border-gray-300 rounded-lg w-full md:w-1/2"
         />
         <select
           onChange={(e) => setFilterCriteria(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg"
+          className="p-2 border border-gray-300 rounded-lg w-full md:w-1/4"
         >
           <option value="">All Categories</option>
           <option value="dessert">Dessert</option>
@@ -58,7 +58,7 @@ const HomePage = () => {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredRecipes.map((recipe) => (
           <div
             key={recipe.id}
