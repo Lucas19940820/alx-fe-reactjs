@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"; // Added Link from react-router-dom
 import useRecipeStore from "../stores/recipeStore";
 import EditRecipeForm from "./EditRecipeForm";
 import recipeData from "../data.json";
+import AddRecipeForm from "./AddRecipeForm"; // Import AddRecipeForm
 
 const HomePage = () => {
   const recipes = useRecipeStore((state) => state.recipes);
@@ -30,6 +31,10 @@ const HomePage = () => {
     });
   }, [recipes, filterCriteria, searchQuery]);
 
+  const addNewRecipe = (newRecipe) => {
+    setRecipes([...recipes, newRecipe]); // Add new recipe to the store
+  };
+
   return (
     <div className="p-4 md:p-8">
       {editingRecipe && (
@@ -40,6 +45,8 @@ const HomePage = () => {
           />
         </div>
       )}
+
+      <AddRecipeForm onAddRecipe={addNewRecipe} /> {/* Add the form here */}
 
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center">
         <input
