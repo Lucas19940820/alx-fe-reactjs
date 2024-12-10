@@ -1,86 +1,63 @@
 import React, { useState } from 'react';
 import githubServices from '../services/githubService';
 
-const { fetchUserData } = githubServices;
+const { fetchUsersWithFilters } = githubServices;
 
-const Search = ({ onSearch }) => {
-  const [username, setUsername] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [userDataList, setUserDataList] = useState([]);
+function Search({ onSearch }) {
+    const [username, setUsername] = useState('');
+    const [location, setLocation] = useState('');
+    const [minRepos, setMinRepos] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+    const handleSubmit = async () => {
+        if (!username) return alert('Please enter a username');
+        if (!location) return alert('Please enter a location');
+        if (!minRepos) return alert('Please set a minimum repo count');
 
-    try {
-      const data = await fetchUserData(username);
+        try {
+            const result = await fetchUsersWithFilters({
+                username,
+                location,
+                minRepos: parseInt(minRepos),
+            });
 
-      if (data) {
-        // Simulate multiple search results with the same data for demonstration purposes
-        const mockResults = [data, data, data]; // Mocking multiple items with `.map`
-        setUserDataList(mockResults);
-        onSearch(data);
-      } else {
-        setError('Looks like we can’t find the user');
-      }
-    } catch (err) {
-      setError('Looks like we can’t find the user');
-    } finally {
-      setLoading(false);
-    }
-  };
+            onSearch(result);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col items-center space-y-4"
-    >
-      <input
-        type="text"
-        placeholder="Search GitHub username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        type="submit"
-        className={`${
-          loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500'
-        } px-4 py-2 rounded-md text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500`}
-        disabled={loading}
-      >
-        {loading ? 'Loading...' : 'Search'}
-      </button>
-      {error && (
-        <p className="text-red-500 mt-2 text-center">
-          {error}
-        </p>
-      )}
-      {userDataList.map((user, index) => (
-        <div
-          key={index}
-          className="mt-2 bg-white shadow-lg p-4 rounded-lg text-center max-w-sm w-full"
-        >
-          <img
-            src={user.avatar_url}
-            alt={user.login}
-            className="w-16 h-16 rounded-full mx-auto"
-          />
-          <h3 className="text-lg font-semibold">{user.login}</h3>
-          <a
-            href={user.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 mt-2 block hover:underline"
-          >
-            View Profile
-          </a>
+    return (
+        <div className="w-full max-w-sm bg-white shadow-md rounded-lg p-4">
+            <h2 className="text-lg font-semibold mb-4 text-gray-700">Search for GitHub Users</h2>
+            <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter Username"
+                className="border px-3 py-2 mb-2 rounded-md w-full"
+            />
+            <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Enter Location"
+                className="border px-3 py-2 mb-2 rounded-md w-full"
+            />
+            <input
+                type="number"
+                value={minRepos}
+                onChange={(e) => setMinRepos(e.target.value)}
+                placeholder="Minimum Repos"
+                className="border px-3 py-2 mb-2 rounded-md w-full"
+            />
+            <button
+                onClick={handleSubmit}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md cursor-pointer"
+            >
+                Search
+            </button>
         </div>
-      ))}
-    </form>
-  );
-};
+    );
+}
 
 export default Search;
