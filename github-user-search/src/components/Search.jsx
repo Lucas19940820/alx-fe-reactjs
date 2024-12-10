@@ -7,7 +7,7 @@ const Search = ({ onSearch }) => {
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [userData, setUserData] = useState(null);
+  const [userDataList, setUserDataList] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,36 +17,19 @@ const Search = ({ onSearch }) => {
     try {
       const data = await fetchUserData(username);
 
-      if (data?.login && data?.avatar_url) {
-        setUserData(data);
+      if (data) {
+        // Simulate multiple search results with the same data for demonstration purposes
+        const mockResults = [data, data, data]; // Mocking multiple items with `.map`
+        setUserDataList(mockResults);
         onSearch(data);
       } else {
-        setError('Looks like we cant find the user');
-        setUserData(null);
+        setError('Looks like we can’t find the user');
       }
     } catch (err) {
-      setError('Looks like we cant find the user');
-      setUserData(null);
+      setError('Looks like we can’t find the user');
     } finally {
       setLoading(false);
     }
-  };
-
-  const renderUserDetails = () => {
-    return (
-      <>
-        {userData && userData.login ? (
-          <div className="mt-4 text-center">
-            <img
-              src={userData.avatar_url}
-              alt={userData.login}
-              className="w-16 h-16 rounded-full mx-auto"
-            />
-            <h3 className="text-lg font-semibold">{userData.login}</h3>
-          </div>
-        ) : null}
-      </>
-    );
   };
 
   return (
@@ -75,7 +58,27 @@ const Search = ({ onSearch }) => {
           {error}
         </p>
       )}
-      {renderUserDetails()}
+      {userDataList.map((user, index) => (
+        <div
+          key={index}
+          className="mt-2 bg-white shadow-lg p-4 rounded-lg text-center max-w-sm w-full"
+        >
+          <img
+            src={user.avatar_url}
+            alt={user.login}
+            className="w-16 h-16 rounded-full mx-auto"
+          />
+          <h3 className="text-lg font-semibold">{user.login}</h3>
+          <a
+            href={user.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 mt-2 block hover:underline"
+          >
+            View Profile
+          </a>
+        </div>
+      ))}
     </form>
   );
 };
