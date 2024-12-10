@@ -21,11 +21,11 @@ const Search = ({ onSearch }) => {
         setUserData(data);
         onSearch(data);
       } else {
-        setError('Looks like we can’t find the user');
+        setError('Looks like we cant find the user');
         setUserData(null);
       }
     } catch (err) {
-      setError('Looks like we can’t find the user');
+      setError('Looks like we cant find the user');
       setUserData(null);
     } finally {
       setLoading(false);
