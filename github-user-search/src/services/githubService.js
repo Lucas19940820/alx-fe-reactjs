@@ -10,11 +10,12 @@ const fetchUserData = async (username) => {
     }
 };
 
-// Fetch users with specific filters like location and minimum repositories
+// Fetch users with filters such as location, username, and minimum repositories
 const fetchUsersWithFilters = async ({ username, location, minRepos }) => {
     try {
-        const query = `q=${username}+location:${location}+repos:>=${minRepos}`;
-        const response = await axios.get(`https://api.github.com/search/users?${query}`);
+        // Advanced API query structure
+        const query = `https://api.github.com/search/users?q=${username}+location:${location}+repos:>=${minRepos}`;
+        const response = await axios.get(query);
         return response.data.items;
     } catch (error) {
         throw new Error('Error fetching users');
