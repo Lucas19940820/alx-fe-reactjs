@@ -16,9 +16,13 @@ const Search = ({ onSearch }) => {
 
     try {
       const data = await fetchUserData(username);
-      if (data && data.login && data.avatar_url) {
+
+      if (data?.login && data?.avatar_url) {
         setUserData(data);
         onSearch(data);
+      } else {
+        setError('Looks like we can’t find the user');
+        setUserData(null);
       }
     } catch (err) {
       setError('Looks like we can’t find the user');
